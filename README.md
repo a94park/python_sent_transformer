@@ -1,6 +1,6 @@
-# Customizable Chatbot
+# Reuseable Chatbot (Almost finished with front end)
 
-- A python chatbot using python's sentence-transformers.
+- A python chatbot using python's sentence-transformers. With a React frontend
 - User inputs are embedded numerically to create a vector representation for a more accurate, quicker response.
 - This version takes my resume to answer job interview questions.
 - Can easily be adjusted to use on your e-commerce, personal, and professional websites.
@@ -28,7 +28,8 @@
    ]
    }
    (ChatGPT can create this file for you, given the structure and the document you want to create questions from)
-5. Adjust line 8 to the correct json file name and run.
+5. Adjust line 8 to the correct json file name.
+6. client, npm install, run front, run back
 
 # Stretch
 
