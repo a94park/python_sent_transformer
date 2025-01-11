@@ -31,7 +31,7 @@
 
    (ChatGPT can create this file for you, given the structure and the document you want to create questions from. The more patterns you provide, the more accurate the bot becomes.)
 
-5. Adjust line 8 to the correct json file name.
+5. Adjust line 12 to the correct json file name.
 6. client, npm install, run React, run flask
 
 # Stretch
