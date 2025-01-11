@@ -2,3 +2,9 @@
 resume_data.json
 notes.txt
 .DS_Store
+/client/.env
+/client.env.local
+/client/.env.development
+/client/node_modules
+/client/build
+/server/.env

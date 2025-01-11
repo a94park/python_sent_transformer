@@ -1,6 +1,6 @@
 # Reuseable Chatbot (Almost finished with front end)
 
-- A python chatbot using python's sentence-transformers. With a React frontend
+- A python chatbot using python's sentence-transformers with a React frontend.
 - User inputs are embedded numerically to create a vector representation for a more accurate, quicker response.
 - This version takes my resume to answer job interview questions.
 - Can easily be adjusted to use on your e-commerce, personal, and professional websites.
@@ -9,8 +9,9 @@
 
 1. clone
 2. venv
-3. pip install sentence-transformers (no requirements.txt since it's the only one you need)
+3. pip install -r requirements.txt
 4. make your json file following this structure:
+
    {
    "questions": [
    {
@@ -27,9 +28,11 @@
    }
    ]
    }
-   (ChatGPT can create this file for you, given the structure and the document you want to create questions from)
+
+   (ChatGPT can create this file for you, given the structure and the document you want to create questions from. The more patterns you provide, the more accurate the bot becomes.)
+
 5. Adjust line 8 to the correct json file name.
-6. client, npm install, run front, run back
+6. client, npm install, run React, run flask
 
 # Stretch
 

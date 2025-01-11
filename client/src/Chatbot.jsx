@@ -1,19 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { FaCommentDots } from "react-icons/fa"; // Import chat bubble icon
 import "./Chatbot.scss"; // Import the SCSS file
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
+  const [isChatVisible, setIsChatVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const chatBoxRef = useRef(null);
+  const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
   const handleSend = async () => {
     if (!userInput.trim()) return;
-
-    // Add the user's message to the chat history
     setMessages([...messages, { sender: "user", text: userInput }]);
-
+    setIsLoading(true);
     try {
-      // Send user input to the backend
-      const response = await fetch("http://localhost:5000/chat", {
+      const response = await fetch(`${apiUrl}/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,13 +29,11 @@ const Chatbot = () => {
 
       const data = await response.json();
 
-      // Add the bot's response to the chat history
       setMessages((prevMessages) => [
         ...prevMessages,
         { sender: "bot", text: data.response },
       ]);
     } catch (error) {
-      // Handle network or other errors
       setMessages((prevMessages) => [
         ...prevMessages,
         {
@@ -45,34 +45,61 @@ const Chatbot = () => {
         },
       ]);
     } finally {
-      setUserInput(""); // Clear the input field
+      setIsLoading(false);
+      setUserInput("");
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  };
+
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [messages, isLoading]);
+
   return (
-    <div className="chat-container">
-      <div className="chat-box">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`message ${
-              message.sender === "user" ? "user-message" : "bot-message"
-            }`}>
-            {message.text}
-          </div>
-        ))}
-      </div>
-      <div className="input-container">
-        <input
-          className="input"
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          placeholder="Type your message..."
-        />
-        <button className="send-button" onClick={handleSend}>
-          Send
-        </button>
+    <div>
+      <button
+        className={`toggle-chat-button ${!isChatVisible ? "flash" : ""}`}
+        onClick={() => setIsChatVisible(!isChatVisible)}>
+        <FaCommentDots />
+        {isChatVisible ? " Close Chat" : " Open Chat"}
+      </button>
+      <div
+        className={`chat-container animate__animated ${
+          isChatVisible ? "animate__fadeInUp" : "animate__fadeOutDown"
+        }`}
+        style={{ display: isChatVisible ? "flex" : "none" }}>
+        <div className="chat-box" ref={chatBoxRef}>
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`message ${
+                message.sender === "user" ? "user-message" : "bot-message"
+              }`}>
+              {message.text}
+            </div>
+          ))}
+          {isLoading && <div className="message bot-message">Loading...</div>}
+        </div>
+        <div className="input-container">
+          <input
+            className="input"
+            type="text"
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Type your message..."
+          />
+          <button className="send-button" onClick={handleSend}>
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );
