@@ -1,4 +1,4 @@
-# Reuseable Chatbot (Almost finished with front end)
+# Reuseable Chatbot (React Flask)
 
 - A python chatbot using python's sentence-transformers with a React frontend.
 - User inputs are embedded numerically to create a vector representation for a more accurate, quicker response.
